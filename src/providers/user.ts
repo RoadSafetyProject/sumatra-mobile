@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import {HttpClient} from "./http-client";
 
 /*
   Generated class for the User provider.
@@ -12,7 +13,20 @@ export class User {
 
   public userData : any;
 
-  constructor(private storage : Storage) {
+  constructor(private storage : Storage,public httpClient : HttpClient) {
+  }
+
+  authenticateUser(user){
+    let self = this;
+    let fields = "fields=[:all],userCredentials[userRoles[name,dataSets[id,name],programs[id,name]]";
+    return  new Promise(function(resolve,reject){
+      self.httpClient.get('/api/me.json?'+fields,user).subscribe(
+        data => {
+          resolve(data.json());
+        },error=>{
+          reject(error.json());
+        });
+    });
   }
 
   setCurrentUser(user : any){
