@@ -15,7 +15,7 @@ import {User} from "../providers/user";
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = LoginPage;
+  rootPage: any;
 
   pages: Array<{title: string, component: any,icon : string}>;
 
@@ -25,13 +25,13 @@ export class MyApp {
       {title : "Home",component : HomePage ,icon :"home"},
       { title: 'About', component: AboutPage ,icon :"help"}
     ];
-
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
       StatusBar.styleDefault();
       Splashscreen.hide();
+      this.rootPage = LoginPage;
     });
   }
 
@@ -41,7 +41,6 @@ export class MyApp {
 
   logOut(){
     this.user.getCurrentUser().then((user :any)=>{
-      user = JSON.parse(user);
       user.isLogin = false;
       this.user.setCurrentUser(user).then(user=>{
         this.nav.setRoot(LoginPage);

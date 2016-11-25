@@ -31,6 +31,10 @@ export class LoginPage {
               public toastCtrl: ToastController,public app : AppProvider) {
 
     this.loginData.logoUrl = 'assets/img/loginLogo.png';
+    this.loginData.serverUrl = "192.168.43.62:8080/demo";
+    this.loginData.username = "admin";
+    this.loginData.password = "IROAD2015";
+
     this.menuCtrl.enable(false);
     this.user.getCurrentUser().then(user=>{
       this.reAuthenticateUser(user);
@@ -42,6 +46,7 @@ export class LoginPage {
   reAuthenticateUser(user){
     if(user){
       if(user.isLogin){
+        this.loginData = user;
         this.setLandingPage();
       }else if(user.serverUrl){
         this.loginData.serverUrl = user.serverUrl;
@@ -58,6 +63,7 @@ export class LoginPage {
         this.loginData.serverUrl = formattedBaseUrl;
         if(!this.loginData.username){
           this.setToasterMessage('Please Enter username');
+          alert(this.loginData.password)
         }else if (!this.loginData.password){
           this.setToasterMessage('Please Enter password');
         }else{
