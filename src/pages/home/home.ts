@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController,MenuController,ToastController } from 'ionic-angular';
 import {User} from "../../providers/user";
-import {Program} from "../../providers/program";
-import {SqlLite} from "../../providers/sql-lite";
+import {BusinessLicenceSearchPage} from "../business-licence-search/business-licence-search";
+import {VehicleSearchPage} from "../vehicle-search/vehicle-search";
 
 /*
   Generated class for the Home page.
@@ -13,7 +13,7 @@ import {SqlLite} from "../../providers/sql-lite";
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  providers : [User,Program,SqlLite]
+  providers : [User]
 })
 export class HomePage {
 
@@ -21,51 +21,23 @@ export class HomePage {
   public loadingData : boolean = false;
   public loadingMessages : any = [];
   public currentUser : any;
-
-  //business program
-  public businessLicenceProgram : any;
-  public businessLicenceProgramName : string;
-
-
-  //vehicle program
-  public vehicleProgram : any;
-  public vehicleProgramName : string;
+  public homeLogo : string =  'assets/img/homeLogo.png';
 
   constructor(public navCtrl: NavController,public menuCtrl: MenuController,
-              public Program : Program,public SqlLite:SqlLite,
               public user : User,public toastCtrl: ToastController) {
 
     this.menuCtrl.enable(true);
-    this.vehicleProgramName = "Vehicle";
-    this.businessLicenceProgram = "Bussiness License History";
     this.user.getCurrentUser().then(user=>{
       this.currentUser = user;
-      this.loadVehicleMetadata();
     });
   }
 
-  loadVehicleMetadata(){
-    this.loadingData = true;
-    this.loadingMessages = [];
-    this.setLoadingMessages("Loading vehicle metadata");
-    this.Program.getProgramByName(this.vehicleProgramName,this.currentUser).then((program:any)=>{
-      this.vehicleProgram = program;
-      this.loadBusinessLicenceMetadata();
-    },error=> {
-      this.loadingData = false;
-      this.setToasterMessage("Fail to load vehicle metadata");
-    });
-  }
-
-  loadBusinessLicenceMetadata(){
-    this.setLoadingMessages("Loading business licence metadata");
-    this.Program.getProgramByName(this.businessLicenceProgramName,this.currentUser).then((program:any)=>{
-      this.businessLicenceProgram = program;
-      this.loadingData = false;
-    },error=>{
-      this.loadingData=false;
-      this.setToasterMessage("Fail to load business licence metadata");
-    });
+  goToComponent(componentName){
+    if(componentName == "Vehicle"){
+      this.navCtrl.setRoot(VehicleSearchPage);
+    }else if(componentName == "BusinessLicence"){
+      this.navCtrl.setRoot(BusinessLicenceSearchPage);
+    }
   }
 
   ionViewDidLoad() {};

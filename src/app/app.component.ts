@@ -6,6 +6,8 @@ import {LoginPage} from "../pages/login/login";
 import {HomePage} from "../pages/home/home";
 import {AboutPage} from "../pages/about/about";
 import {User} from "../providers/user";
+import {BusinessLicenceSearchPage} from "../pages/business-licence-search/business-licence-search";
+import {VehicleSearchPage} from "../pages/vehicle-search/vehicle-search";
 
 
 @Component({
@@ -23,6 +25,8 @@ export class MyApp {
     this.initializeApp();
     this.pages = [
       {title : "Home",component : HomePage ,icon :"home"},
+      {title : "Vehicle",component : VehicleSearchPage ,icon :"bus"},
+      {title : "Business Licence",component : BusinessLicenceSearchPage ,icon :"document"},
       { title: 'About', component: AboutPage ,icon :"help"}
     ];
   }

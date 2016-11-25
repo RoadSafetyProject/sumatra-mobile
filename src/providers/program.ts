@@ -16,6 +16,12 @@ export class Program {
     this.resourceName = "programs";
   }
 
+  /**
+   * get program by using name of the given program
+   * @param name
+   * @param currentUser
+   * @returns {Promise<T>}
+     */
   getProgramByName(name,currentUser){
     let self = this;
     let attribute = "name";

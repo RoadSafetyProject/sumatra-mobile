@@ -3,12 +3,13 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>About</ion-title>
+    <ion-title>Business Licence</ion-title>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content class="about">
+
+<ion-content class="businessLicence">
   <div *ngIf="loadingData">
     <ion-list>
       <ion-item *ngFor="let message of loadingMessages; let currentIndex = index">
@@ -24,26 +25,13 @@
     <ion-grid>
       <ion-row>
         <ion-col width-100>
-          <ion-item-group>
-            <ion-item-divider color="primary">
-              App Information
-            </ion-item-divider>
-            <ion-item *ngFor="let entry of appInformation ">
-              <h2>{{ entry.key }}</h2>
-              <p>{{ entry.value }}</p>
-            </ion-item>
-          </ion-item-group>
-          <ion-list></ion-list>
-          <ion-item-group>
-            <ion-list></ion-list>
-            <ion-item-divider color="primary">
-              System Information
-            </ion-item-divider>
-            <ion-item *ngFor="let entry of systemInformation">
-              <h2>{{ entry.key }}</h2>
-              <p>{{ entry.value }}</p>
-            </ion-item>
-          </ion-item-group>
+          <ion-item>
+            <ion-label floating>Business License Number</ion-label>
+            <ion-input type="text"[(ngModel)]="businessLicenceNumber"></ion-input>
+          </ion-item>
+          <button (click)="search()" ion-button full>
+            Search
+          </button>
         </ion-col>
       </ion-row>
     </ion-grid>

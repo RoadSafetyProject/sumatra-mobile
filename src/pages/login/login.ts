@@ -31,9 +31,6 @@ export class LoginPage {
               public toastCtrl: ToastController,public app : AppProvider) {
 
     this.loginData.logoUrl = 'assets/img/loginLogo.png';
-    this.loginData.serverUrl = "192.168.43.62:8080/demo";
-    this.loginData.username = "admin";
-    this.loginData.password = "IROAD2015";
 
     this.menuCtrl.enable(false);
     this.user.getCurrentUser().then(user=>{

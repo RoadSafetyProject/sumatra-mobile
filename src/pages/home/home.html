@@ -8,7 +8,7 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content class="home">
   <div *ngIf="loadingData">
     <ion-list>
       <ion-item *ngFor="let message of loadingMessages; let currentIndex = index">
@@ -20,8 +20,32 @@
       </ion-item>
     </ion-list>
   </div>
-    {{ currentUser|json }}<br>
 
+  <div *ngIf="!loadingData">
+    <ion-card>
+      <img [src]="homeLogo" width = "60%">
+      <ion-card-content>
+        <p>
+          A responsive mobile app for instant verification of business licence at your finger tips
+        </p>
+      </ion-card-content>
 
+    </ion-card>
+
+    <ion-row>
+      <ion-col width-100>
+        <button ion-button full (click)="goToComponent('Vehicle')">
+          Vehicle
+        </button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col width-100>
+        <button ion-button full (click)="goToComponent('BusinessLicence')">
+          Business Licence
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
 
 </ion-content>
