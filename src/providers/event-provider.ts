@@ -16,6 +16,25 @@ export class EventProvider {
   }
 
 
+  /**
+   * get event usin event id
+   * @param id
+   * @param user
+     */
+  getEventById(id,user){
+    let self = this;
+    return new Promise(function(resolve, reject){
+      let eventUrl = "/api/events/"+id+".json";
+      self.httpClient.get(eventUrl,user).subscribe(response=>{
+        response = response.json();
+        resolve(response);
+      },error=>{
+        reject(error);
+      })
+    });
+  }
+
+
   findAndSetEventsToRelationDataValuesList(dataValuesList,programId,user){
     let self = this;
     let promises = [];
@@ -98,7 +117,7 @@ export class EventProvider {
   }
 
   /**
-   *
+   * get events form sqlview results
    * @param eventsIdData
    * @param programId
    * @param user
