@@ -40,6 +40,8 @@ export class VehicleSearchPage {
   //search results :
   public vehicleData : any;
   public vehicleBusinessLicenceHistory : any;
+  public hasVehicleData :boolean = false;
+  public hasBusinessLicenceData :boolean = false;
 
 
   constructor(public navCtrl: NavController,public menuCtrl: MenuController,
@@ -65,15 +67,17 @@ export class VehicleSearchPage {
         if(programStageDataElement.dataElement.name.toLowerCase() == this.searchCriteria.toLowerCase()){
           this.searchCriteriaDataElement = programStageDataElement.dataElement;
         }
-        this.dataElementIdToNameMapping[programStageDataElement.dataElement.id] = programStageDataElement.dataElement.name;
+        if(programStageDataElement.displayInReports){
+          this.dataElementIdToNameMapping[programStageDataElement.dataElement.id] = programStageDataElement.dataElement.name
+        }
       });
-
       this.loadBusinessLicenceMetadata();
     },error=> {
       this.loadingData = false;
       this.setToasterMessage("Fail to load vehicle metadata");
     });
   }
+
 
   loadBusinessLicenceMetadata(){
     this.setLoadingMessages("Loading business licence metadata");
@@ -93,6 +97,10 @@ export class VehicleSearchPage {
     });
   }
 
+  viewBusinessLicence(){
+    this.setToasterMessage('ready to view business licence history');
+  }
+
   search(){
     if(this.vehiclePlateNumber){
       this.vehiclePlateNumber = this.vehiclePlateNumber.toUpperCase();
@@ -100,6 +108,11 @@ export class VehicleSearchPage {
         this.vehiclePlateNumber =  this.vehiclePlateNumber.substr(0,4) + ' ' + this.vehiclePlateNumber.substr(4);
       }
       if(this.searchCriteriaDataElement.id){
+        //todo reset results
+        this.hasVehicleData = false;
+        this.hasBusinessLicenceData = false;
+        this.vehicleBusinessLicenceHistory = [];
+        this.vehicleData ={};
         this.loadSearchingResult();
       }else{
         this.setToasterMessage('Fail to set relation data element ');
@@ -115,11 +128,13 @@ export class VehicleSearchPage {
     this.setLoadingMessages("Please wait,while search for a vehicle");
     this.EventProvider.findEventsByDataValue(this.searchCriteriaDataElement.id,this.vehiclePlateNumber,this.vehicleProgram.id,this.currentUser).then((events:any)=>{
       if(events.length > 0){
+        this.hasVehicleData = true;
         this.vehicleData = events[0];
         this.setLoadingMessages("Loading business licence history");
         this.EventProvider.findEventsByDataValue(this.businessLicenceVehicleDataElementId,events[0].event,this.businessLicenceProgram.id,this.currentUser).then((events:any)=>{
           if(events.length > 0){
             this.vehicleBusinessLicenceHistory = events;
+            this.hasBusinessLicenceData = true;
             this.loadingData = false;
           }else{
             this.loadingData = false;
@@ -133,7 +148,6 @@ export class VehicleSearchPage {
         this.loadingData = false;
         this.setToasterMessage("vehicle has not been found");
       }
-
     },error=>{
       this.loadingData = false;
       this.setToasterMessage("Fail to search vehicle");

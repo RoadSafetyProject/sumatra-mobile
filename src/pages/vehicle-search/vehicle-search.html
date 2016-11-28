@@ -33,10 +33,39 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    {{ dataElementIdToNameMapping|json}}<br>
-    {{ vehicleData|json }}
-    <hr>
-    {{ vehicleBusinessLicenceHistory|json}}
+
+    <div *ngIf="hasVehicleData">
+      <ion-grid>
+        <ion-row>
+          <ion-col width-100>
+            <h3 align="center">
+              Verification Information
+            </h3>
+            <ion-list >
+              <div *ngFor="let dataValue of vehicleData.dataValues">
+                <ion-item *ngIf="dataElementIdToNameMapping[dataValue.dataElement]" text-wrap>
+                  <h2>{{ dataElementIdToNameMapping[dataValue.dataElement] }}</h2>
+                  <p>{{ dataValue.value }}</p>
+                </ion-item>
+              </div>
+            </ion-list>
+
+            <div *ngIf="hasBusinessLicenceData">
+              <h3 align="center">
+                Business Licence records
+              </h3>
+              <ion-list >
+                <button ion-item (click)="viewBusinessLicence()">
+                  Number of business licence
+                  <ion-badge item-right>{{ vehicleBusinessLicenceHistory.length }}</ion-badge>
+                  <ion-icon name="ios-arrow-forward-outline" item-right></ion-icon>
+                </button>
+              </ion-list>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
   </div>
 
 </ion-content>
