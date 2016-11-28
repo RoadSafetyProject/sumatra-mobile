@@ -35,10 +35,29 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    {{ dataElementIdToNameMapping|json }}<br>
-    {{ searchCriteriaDataElement|json}}<br>
-    vehicleData : {{ vehicleData|json}}<hr>
-    {{ BusinessLicenceData |json }}
+
+    <div *ngIf="hasBusinessLicenceData">
+      <ion-grid>
+        <ion-row>
+          <ion-col width-100>
+            <h3 align="center">
+              Verification Information
+            </h3>
+            <ion-list >
+              <div *ngFor="let dataValue of BusinessLicenceData.dataValues">
+                <ion-item *ngIf="dataElementIdToNameMapping[dataValue.dataElement]" text-wrap>
+                  <h2>{{ dataElementIdToNameMapping[dataValue.dataElement] }}</h2>
+                  <p>{{ dataValue.value }}</p>
+                </ion-item>
+              </div>
+            </ion-list>
+            <button *ngIf="hasVehicleData" (click)="viewVehicle(vehicleData)" ion-button full >
+              View Vehicle
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
   </div>
 
 </ion-content>

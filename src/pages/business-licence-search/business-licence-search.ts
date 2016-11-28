@@ -39,6 +39,9 @@ export class BusinessLicenceSearchPage {
   public vehicleProgram : any;
   public vehicleProgramName : string;
 
+  public hasVehicleData :boolean = false;
+  public hasBusinessLicenceData :boolean = false;
+
   constructor(public navCtrl: NavController,public menuCtrl: MenuController,
               public Program : Program,public SqlLite:SqlLite,public EventProvider:EventProvider,
               public user : User,public toastCtrl: ToastController) {
@@ -76,7 +79,7 @@ export class BusinessLicenceSearchPage {
         }
         if(programStageDataElement.dataElement.name.toLowerCase() == dataElementName.toLowerCase()){
           this.businessLicenceVehicleDataElementId = programStageDataElement.dataElement.id;
-        }else {
+        }else if(programStageDataElement.displayInReports){
           this.dataElementIdToNameMapping[programStageDataElement.dataElement.id] = programStageDataElement.dataElement.name
         }
       });
@@ -90,6 +93,10 @@ export class BusinessLicenceSearchPage {
   search(){
     if(this.businessLicenceNumber){
       if(this.searchCriteriaDataElement.id){
+        this.BusinessLicenceData = {};
+        this.vehicleData = {};
+        this.hasVehicleData = false;
+        this.hasBusinessLicenceData = false;
         this.loadSearchingResult();
       }else{
         this.setToasterMessage('Fail to set relation data element ');
@@ -99,6 +106,10 @@ export class BusinessLicenceSearchPage {
     }
   }
 
+  viewVehicle(vehicleData){
+    this.setToasterMessage('ready to view vehicle');
+  }
+
   loadSearchingResult(){
     this.loadingMessages = [];
     this.loadingData = true;
@@ -106,6 +117,7 @@ export class BusinessLicenceSearchPage {
     this.EventProvider.findEventsByDataValue(this.searchCriteriaDataElement.id,this.businessLicenceNumber,this.businessLicenceProgram.id,this.currentUser).then((events:any)=>{
       if(events.length > 0){
         this.BusinessLicenceData = events[0];
+        this.hasBusinessLicenceData = true;
         this.setLoadingMessages("Loading vehicle information");
         let vehicleId = "";
         events[0].dataValues.forEach((dataValue : any)=>{
@@ -117,6 +129,7 @@ export class BusinessLicenceSearchPage {
           this.EventProvider.getEventById(vehicleId,this.currentUser).then((event:any)=>{
             if(event.event){
               this.vehicleData = event;
+              this.hasVehicleData = true;
               this.loadingData = false;
             }else{
               this.loadingData = false;
