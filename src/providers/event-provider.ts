@@ -41,6 +41,14 @@ export class EventProvider {
     });
   }
 
+  /**
+   * get event usin a ive datavalues
+   * @param dataElementId
+   * @param value
+   * @param programId
+   * @param user
+   * @returns {Promise<T>}
+     */
   findEventsByDataValue(dataElementId,value,programId,user){
     let self = this;
     let sqlViewUrl = "/api/sqlViews.json?filter=name:eq:Find Event";
@@ -61,6 +69,15 @@ export class EventProvider {
 
   }
 
+  /**
+   * get event list
+   * @param dataElementId
+   * @param value
+   * @param sqlViewData
+   * @param programId
+   * @param user
+     * @returns {Promise<T>}
+     */
   getEventIdList(dataElementId,value,sqlViewData,programId,user){
     let self = this;
     let sqlViewEventsUrl = "/api/sqlViews/" + sqlViewData.sqlViews[0].id + "/data.json?var=dataElement:" + dataElementId + "&var=value:" + value;
@@ -80,6 +97,13 @@ export class EventProvider {
 
   }
 
+  /**
+   *
+   * @param eventsIdData
+   * @param programId
+   * @param user
+   * @returns {Promise<T>}
+     */
   getEvents(eventsIdData,programId,user){
     let eventIDs = [];
     let events = [];
@@ -105,6 +129,11 @@ export class EventProvider {
     });
   }
 
+  /**
+   *
+   * @param eventListData
+   * @returns {any}
+     */
   getEventList(eventListData){
     return eventListData.events;
   }
