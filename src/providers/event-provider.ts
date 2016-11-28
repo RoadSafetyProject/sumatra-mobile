@@ -15,7 +15,6 @@ export class EventProvider {
 
   }
 
-
   /**
    * get event usin event id
    * @param id
