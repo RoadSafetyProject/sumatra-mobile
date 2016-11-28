@@ -23,7 +23,14 @@
 
   <div *ngIf="!loadingData">
     <ion-card>
-      <img [src]="homeLogo" width = "60%">
+      <ion-row>
+        <ion-col width-100>
+          <div class="homeLogo">
+            <img [src]="homeLogo" width = "60%">
+          </div>
+        </ion-col>
+      </ion-row>
+
       <ion-card-content>
         <p>
           A responsive mobile app for instant verification of business licence at your finger tips
