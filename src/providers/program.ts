@@ -38,7 +38,24 @@ export class Program {
         reject();
       })
     });
+  }
 
+  getProgramId(id,currentUser){
+    let self = this;
+    let attribute = "id";
+    let attributeArray = [];
+    let program = {};
+    attributeArray.push(id);
+    return  new Promise(function(resolve,reject){
+      self.sqlLite.getDataFromTableByAttributes(self.resourceName,attribute,attributeArray,currentUser.currentDatabase).then((programs : any)=>{
+        if(programs.length > 0){
+          program = programs[0];
+        }
+        resolve(program);
+      },error=>{
+        reject();
+      })
+    });
   }
 
 }

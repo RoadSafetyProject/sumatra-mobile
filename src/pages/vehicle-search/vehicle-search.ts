@@ -4,6 +4,7 @@ import {User} from "../../providers/user";
 import {Program} from "../../providers/program";
 import {SqlLite} from "../../providers/sql-lite";
 import {EventProvider} from "../../providers/event-provider";
+import {ViewBusinessLicenceHistoryPage} from "../view-business-licence-history/view-business-licence-history";
 
 /*
   Generated class for the VehicleSearch page.
@@ -98,7 +99,14 @@ export class VehicleSearchPage {
   }
 
   viewBusinessLicence(){
-    this.setToasterMessage('ready to view business licence history');
+    let params = {
+      eventIds : [],
+      programId : this.businessLicenceProgram.id
+    };
+    this.vehicleBusinessLicenceHistory.forEach((event :any)=>{
+      params.eventIds.push(event.event);
+    });
+    this.navCtrl.push(ViewBusinessLicenceHistoryPage,params);
   }
 
   search(){
@@ -108,7 +116,6 @@ export class VehicleSearchPage {
         this.vehiclePlateNumber =  this.vehiclePlateNumber.substr(0,4) + ' ' + this.vehiclePlateNumber.substr(4);
       }
       if(this.searchCriteriaDataElement.id){
-        //todo reset results
         this.hasVehicleData = false;
         this.hasBusinessLicenceData = false;
         this.vehicleBusinessLicenceHistory = [];

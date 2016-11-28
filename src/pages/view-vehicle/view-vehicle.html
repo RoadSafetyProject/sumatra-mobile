@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>vehicle</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="vehicle">
+  <div *ngIf="loadingData">
+    <ion-list>
+      <ion-item *ngFor="let message of loadingMessages; let currentIndex = index">
+        {{ message }}
+        <ion-icon *ngIf="(currentIndex + 1) < loadingMessages.length" name="done-all" color="primary" item-right></ion-icon>
+        <div style="text-align: center" item-right *ngIf="(currentIndex + 1) >= loadingMessages.length">
+          <ion-spinner name="crescent" color="secondary"></ion-spinner>
+        </div>
+      </ion-item>
+    </ion-list>
+  </div>
+  <div *ngIf="!loadingData">
+    <ion-grid>
+      <ion-row>
+        <ion-col width-100 *ngIf="hasDataLoaded">
+          <h3 align="center">
+            Vehicle Information
+          </h3>
+          <ion-list >
+            <div *ngFor="let dataValue of vehicleData.dataValues">
+              <ion-item *ngIf="dataElementIdToNameMapping[dataValue.dataElement]" text-wrap>
+                <h2>{{ dataElementIdToNameMapping[dataValue.dataElement] }}</h2>
+                <p>{{ dataValue.value }}</p>
+              </ion-item>
+            </div>
+          </ion-list>
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Business Licence History</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="businessLicenceHistory">
+  <div *ngIf="loadingData">
+    <ion-list>
+      <ion-item *ngFor="let message of loadingMessages; let currentIndex = index">
+        {{ message }}
+        <ion-icon *ngIf="(currentIndex + 1) < loadingMessages.length" name="done-all" color="primary" item-right></ion-icon>
+        <div style="text-align: center" item-right *ngIf="(currentIndex + 1) >= loadingMessages.length">
+          <ion-spinner name="crescent" color="secondary"></ion-spinner>
+        </div>
+      </ion-item>
+    </ion-list>
+  </div>
+  <div *ngIf="!loadingData">
+    <ion-grid>
+      <ion-row>
+        <ion-col width-100 *ngIf="hasDataLoaded">
+          <h3 align="center">
+            Business Licence History
+          </h3>
+
+          <div *ngFor="let history of businessLicenceHistory">
+            <ion-card  *ngIf="history.dataValues.length>0">
+              <ion-card-content >
+                <div *ngFor="let dataValue of history.dataValues">
+                  <div *ngIf="dataElementIdToNameMapping[dataValue.dataElement]">
+                    <h2>{{ dataElementIdToNameMapping[dataValue.dataElement] }}</h2>
+                    <p>{{ dataValue.value }}</p>
+                    <hr>
+                  </div>
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </div>
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

@@ -8,12 +8,15 @@ import {AboutPage} from "../pages/about/about";
 import {HttpClient} from "../providers/http-client";
 import {VehicleSearchPage} from "../pages/vehicle-search/vehicle-search";
 import {BusinessLicenceSearchPage} from "../pages/business-licence-search/business-licence-search";
+import {ViewBusinessLicenceHistoryPage} from "../pages/view-business-licence-history/view-business-licence-history";
+import {ViewVehiclePage} from "../pages/view-vehicle/view-vehicle";
 
 @NgModule({
   declarations: [
     MyApp,LoginPage,
     AboutPage,HomePage,
-    BusinessLicenceSearchPage,VehicleSearchPage
+    BusinessLicenceSearchPage,VehicleSearchPage,
+    ViewBusinessLicenceHistoryPage,ViewVehiclePage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -22,7 +25,8 @@ import {BusinessLicenceSearchPage} from "../pages/business-licence-search/busine
   entryComponents: [
     MyApp,LoginPage,
     AboutPage,HomePage,
-    BusinessLicenceSearchPage,VehicleSearchPage
+    BusinessLicenceSearchPage,VehicleSearchPage,
+    ViewBusinessLicenceHistoryPage,ViewVehiclePage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},Storage,HttpClient]
 })

@@ -15,6 +15,29 @@ export class EventProvider {
 
   }
 
+
+  getEventByIds(ids,user){
+    let self = this;
+    let promises = [];
+    let events = [];
+    return new Promise(function(resolve, reject){
+      ids.forEach(id=>{
+        promises.push(
+          self.getEventById(id,user).then((event : any)=>{
+            events.push(event);
+          },error=>{})
+        )
+      });
+      Observable.forkJoin(promises).subscribe(() => {
+          resolve(events)
+        },
+        error => {
+          reject(error);
+        }
+      );
+    });
+  }
+
   /**
    * get event usin event id
    * @param id

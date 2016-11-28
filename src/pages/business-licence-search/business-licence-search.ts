@@ -4,6 +4,7 @@ import {User} from "../../providers/user";
 import {Program} from "../../providers/program";
 import {SqlLite} from "../../providers/sql-lite";
 import {EventProvider} from "../../providers/event-provider";
+import {ViewVehiclePage} from "../view-vehicle/view-vehicle";
 
 /*
   Generated class for the BusinessLicenceSearch page.
@@ -107,7 +108,11 @@ export class BusinessLicenceSearchPage {
   }
 
   viewVehicle(vehicleData){
-    this.setToasterMessage('ready to view vehicle');
+    let params = {
+      eventId : vehicleData.event,
+      programId : vehicleData.program
+    };
+    this.navCtrl.push(ViewVehiclePage,params);
   }
 
   loadSearchingResult(){
