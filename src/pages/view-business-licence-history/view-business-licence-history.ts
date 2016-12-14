@@ -29,6 +29,11 @@ export class ViewBusinessLicenceHistoryPage {
   public hasDataLoaded : boolean;
   public dataElementIdToNameMapping : any = {};
   public businessLicenceHistory : any;
+  public businessLicenceHistoryBackUp : any;
+
+  public businessNameFiter :any = {
+    id : "",name : "Business License Number"
+  };
 
   constructor(public menuCtrl: MenuController,public params : NavParams,
               public Program : Program,public SqlLite:SqlLite,public EventProvider : EventProvider,
@@ -54,6 +59,9 @@ export class ViewBusinessLicenceHistoryPage {
         if(programStageDataElement.displayInReports){
           this.dataElementIdToNameMapping[programStageDataElement.dataElement.id] = programStageDataElement.dataElement.name
         }
+        if(programStageDataElement.dataElement.name.toLowerCase() == this.businessNameFiter.name.toLowerCase()) {
+          this.businessNameFiter.id = programStageDataElement.dataElement.id;
+        }
       });
       this.loadVehicleInformation();
     },error=>{
@@ -66,12 +74,30 @@ export class ViewBusinessLicenceHistoryPage {
     this.setLoadingMessages("Loading Business Licence History");
     this.EventProvider.getEventByIds(this.eventIds,this.currentUser).then((events)=>{
       this.businessLicenceHistory = events;
+      this.businessLicenceHistoryBackUp = events;
       this.hasDataLoaded = true;
       this.loadingData = false;
     },error=>{
       this.loadingData = false;
       this.setToasterMessage("Fail to load Business licence History");
     });
+  }
+
+
+  getFilteredList(ev: any) {
+    let val = ev.target.value;
+    this.businessLicenceHistory = this.businessLicenceHistoryBackUp;
+    if(val && val.trim() != ''){
+      this.businessLicenceHistory = this.businessLicenceHistory.filter((event:any) => {
+        let hasBeenFound = false;
+        event.dataValues.forEach((dataValue:any)=>{
+          if((dataValue.dataElement == this.businessNameFiter.id) && (dataValue.value.toLowerCase().indexOf(val.toLowerCase()) > -1)){
+            hasBeenFound = true
+          }
+        });
+        return hasBeenFound;
+      })
+    }
   }
 
   ionViewDidLoad() {}

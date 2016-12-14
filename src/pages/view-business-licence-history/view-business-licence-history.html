@@ -24,10 +24,7 @@
     <ion-grid>
       <ion-row>
         <ion-col width-100 *ngIf="hasDataLoaded">
-          <h3 align="center">
-            Business Licence History
-          </h3>
-
+          <ion-searchbar animated="true"autocomplete="on" placeholder="Search for Business Licence Number"  (ionInput)="getFilteredList($event)"></ion-searchbar>
           <div *ngFor="let history of businessLicenceHistory">
             <ion-card  *ngIf="history.dataValues.length>0">
               <ion-card-content >
