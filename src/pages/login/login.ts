@@ -60,7 +60,6 @@ export class LoginPage {
         this.loginData.serverUrl = formattedBaseUrl;
         if(!this.loginData.username){
           this.setToasterMessage('Please Enter username');
-          alert(this.loginData.password)
         }else if (!this.loginData.password){
           this.setToasterMessage('Please Enter password');
         }else{
